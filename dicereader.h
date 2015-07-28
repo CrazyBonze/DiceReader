@@ -8,19 +8,19 @@
 using namespace std;
 
 class DiceReader {
-  public;
+  public:
 
-  DiceReader();
+    DiceReader();
 
-  unsigned int diceCount(string imageName);	
+    unsigned int diceCount(string);
 
-  private;
+  private:
 
-  sf::Image Image;
-  sf::Vector2u imageSize;
-  
-  unsigned int diceTotal;
-  void floodFind();
+    sf::Image Image;
+    sf::Vector2u imageSize;
+
+    unsigned int diceTotal;
+    void floodFind();
 };
 
 #endif

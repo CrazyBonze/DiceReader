@@ -1,5 +1,14 @@
 sfml-app: main.o
-	g++ main.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
+	g++ -Wall -pedantic -g -o DiceReader main.o dicereader.o -lsfml-graphics -lsfml-window -lsfml-system
 
-main.o: main.cpp
-	g++ -c main.cpp
+main.o: main.cpp dicereader.o
+	g++ -g -std=c++11 -Wall -W -Werror -pedantic -c main.cpp
+
+dicereader.o: dicereader.cpp dicereader.h
+	g++ -g -std=c++11 -Wall -W -Werror -pedantic -c dicereader.cpp
+
+clean:
+	rm *.o DiceReader
+
+run:
+	./DiceReader

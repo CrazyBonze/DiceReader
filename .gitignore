@@ -2,4 +2,4 @@
 *.o
 
 #ignore comiled binaries
-sfml-app
+DiceReader

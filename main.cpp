@@ -1,3 +1,5 @@
+#include"dicereader.h"
+
 #include<iostream>
 #include<SFML/Graphics.hpp>
 
