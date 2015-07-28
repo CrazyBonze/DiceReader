@@ -1,2 +1,5 @@
 #ignore all compiled .o files
 *.o
+
+#ignore comiled binaries
+sfml-app
