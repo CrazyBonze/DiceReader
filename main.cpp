@@ -10,7 +10,10 @@ int main()
 
   DiceReader myReader;
   cout << myReader.diceCount("dice.png") << endl;
-  myReader.printPixleStatus(10);
+  cout << endl;
+
+  cout << myReader.diceCount("real.png") << endl;
+  //myReader.printPixelStatus(10);
   //sf::Image Image;
   //if(!Image.loadFromFile("dice.png"))
   //  return 1;

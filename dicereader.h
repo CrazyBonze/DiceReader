@@ -17,9 +17,10 @@ class DiceReader {
 
     unsigned int diceCount(string);
 
-    void printPixleStatus(unsigned int);
+    void printPixelStatus(unsigned int);
 
   private:
+    sf::Color m_Color;
 
     sf::Image m_Image;
     sf::Vector2u m_ImageSize;
@@ -29,12 +30,13 @@ class DiceReader {
     //set the PixleStatus matrix to the size of 640x400 to start with
     static const unsigned int X = 640;
     static const unsigned int Y = 400;
-    vector<vector<unsigned char> > m_PixleStatus;
+    vector<vector<unsigned char> > m_PixelStatus;
 
-    void floodFind();
-    unsigned char getPixleStatus(unsigned int, unsigned int);
-    void setPixleStatus(unsigned int, unsigned int, unsigned char);
-    void clearPixleStatus();
+    void floodFind(unsigned int, unsigned int);
+    void pipFiller(unsigned int, unsigned int);
+    unsigned char getPixelStatus(unsigned int, unsigned int);
+    void setPixelStatus(unsigned int, unsigned int, unsigned char);
+    void clearPixelStatus();
 };
 
 #endif
