@@ -7,17 +7,21 @@ using namespace std;
 
 int main()
 {
-  sf::Image Image;
-  if(!Image.loadFromFile("dice.png"))
-    return 1;
 
-  sf::Vector2u image_size;
+  DiceReader myReader;
+  cout << myReader.diceCount("dice.png") << endl;
+  myReader.printPixleStatus(10);
+  //sf::Image Image;
+  //if(!Image.loadFromFile("dice.png"))
+  //  return 1;
 
-  image_size = Image.getSize();
+  //sf::Vector2u image_size;
 
-  cout << "X=" << image_size.x << endl;
-  cout << "Y=" << image_size.y << endl;
+  //image_size = Image.getSize();
 
-  cout << "hello" << endl;
+  //cout << "X=" << image_size.x << endl;
+  //cout << "Y=" << image_size.y << endl;
+
+  //cout << "hello" << endl;
   return 0;
 }

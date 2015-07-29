@@ -1,5 +1,8 @@
 #ignore all compiled .o files
 *.o
 
+#ignore swap files
+*.swp
+
 #ignore comiled binaries
 DiceReader
