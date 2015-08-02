@@ -1,5 +1,7 @@
 #include"dicereader.h"
 
+const double DiceReader::PERCENT_DIF = .08;
+
 /**
  * DiceReader::DiceReader
  *
@@ -8,9 +10,13 @@
 
 DiceReader::DiceReader()
 {
-  m_Color = sf::Color::Black;
+  //this will be the color of the pip, black for testing
+  m_Color = sf::Color(15,15,15,255);
   m_DiceTotal = 0;//set to 0 because we have not counted anything
-  m_PixelStatus.resize( X, vector<unsigned char>( Y, 0));//fill status with 0
+  //reserve this image size, this will be the default size for ease of use
+  m_X = 640;
+  m_Y = 400;
+  resizePixelStatus( m_X, m_Y);
 }
 
 /**
@@ -34,23 +40,28 @@ unsigned int DiceReader::diceCount(string imageName)
 
   m_ImageSize = m_Image.getSize();
 
+  if(m_ImageSize. x > m_X || m_ImageSize.y > m_Y)
+    resizePixelStatus( m_ImageSize.x, m_ImageSize.y);
+
   //for tesintg
   /**
-  cout << "X= " << m_ImageSize.x << endl;
-  cout << "Y= " << m_ImageSize.y << endl;
+    cout << "X= " << m_ImageSize.x << endl;
+    cout << "Y= " << m_ImageSize.y << endl;
 
-  for(unsigned int i = 10; i <= 30; i++)
+    for(unsigned int i = 10; i <= 30; i++)
     for(unsigned int k = 10; k <= 30; k++)
-      setPixelStatus( i, k, 2);
-  setPixelStatus( 0, 0, 1);
-  setPixelStatus( 639, 0, 2);
-  setPixelStatus( 0, 399, 2);
-  setPixelStatus( 639, 399, 2);
+    setPixelStatus( i, k, 2);
+    setPixelStatus( 0, 0, 1);
+    setPixelStatus( 639, 0, 2);
+    setPixelStatus( 0, 399, 2);
+    setPixelStatus( 639, 399, 2);
 
-  cout << "status at (50,40) = " << int(getPixelStatus(50,40)) << endl;
-  */
+    cout << "status at (50,40) = " << int(getPixelStatus(50,40)) << endl;
+    */
   //end of testing
   //sf::Color mycolor = m_Image.getPixel(0,0);
+
+  //i will have to search for a place to start but for now this place will do
   floodFind( 300, 210);
 
   return m_DiceTotal;
@@ -72,10 +83,27 @@ void DiceReader::printPixelStatus(unsigned int scale)
     for(vector<unsigned char>::iterator it2 = it1->begin();
         it2 != it1->end(); it2+=scale)
     {
-      cout << int(*it2);
+      if(int(*it2) == 1)
+        cout << ' ';
+      else
+        cout << int(*it2);
     }
     cout << endl;
   }
+}
+
+/**
+ * DiceReader::resizePixelStatus
+ *
+ * Resizes the 2d vector matrix that contains the status of the pixels
+ *
+ * @param X The x value of the matrix
+ * @param Y The y value of the matrix
+ */
+
+void DiceReader::resizePixelStatus(unsigned int X, unsigned int Y)
+{
+  m_PixelStatus.resize( X, vector<unsigned char>( Y, 0));//fill status with 0
 }
 
 /**
@@ -89,11 +117,12 @@ void DiceReader::printPixelStatus(unsigned int scale)
 
 void DiceReader::floodFind(unsigned int X, unsigned int Y)
 {
-  if(X >= m_ImageSize.x || Y >= m_ImageSize.y)
+  if( X >= m_ImageSize.x || Y >= m_ImageSize.y)
     return;
-  if(getPixelStatus( X, Y) > 0)
+  if( getPixelStatus( X, Y) > 0)
     return;
-  if(m_Image.getPixel( X, Y) != m_Color)
+  sf::Color sample = m_Image.getPixel( X, Y);
+  if( !pixelCompare( sample, m_Color, PERCENT_DIF))
   {
     setPixelStatus( X, Y, 1);
   }
@@ -101,7 +130,6 @@ void DiceReader::floodFind(unsigned int X, unsigned int Y)
   {
     m_DiceTotal++;
     pipFiller( X, Y);
-    //setPixelStatus( X, Y, 2);
   }
 
   floodFind( X + 1, Y);
@@ -110,6 +138,28 @@ void DiceReader::floodFind(unsigned int X, unsigned int Y)
   floodFind( X, Y - 1);
 
   return;
+}
+
+/**
+ * DiceReader::pixelCompare
+ *
+ * Compares two pixels based on r, g, and b values independently,
+ * if one or more is not in the range than it returns false.
+ *
+ * @param sample The color of the pixel that is being processed
+ * @param master The color of the pixel to compare sample to
+ * @param percent The percentage of how close sample should be to master
+ *
+ * @return if r, g, and b of sample are all within +- percent of master
+ */
+
+bool DiceReader::pixelCompare(sf::Color sample, sf::Color master, double percent)
+{
+  double range = 255 * percent;
+  double masterAvg = (master.r + master.g + master.b) / 3;
+  double sampleAvg = (sample.r + sample.g + sample.b) / 3;
+
+  return range >= abs(masterAvg - sampleAvg);
 }
 
 /**
@@ -127,7 +177,9 @@ void DiceReader::pipFiller(unsigned int X, unsigned int Y)
     return;
   if(getPixelStatus( X, Y) > 0)
     return;
-  if(m_Image.getPixel( X, Y) == m_Color)
+  //if(m_Image.getPixel( X, Y) == m_Color)
+  sf::Color sample = m_Image.getPixel( X, Y);
+  if( pixelCompare( sample, m_Color, PERCENT_DIF))
   {
     setPixelStatus( X, Y, 2);
     pipFiller( X + 1, Y);
