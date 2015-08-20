@@ -4,5 +4,9 @@
 #ignore swap files
 *.swp
 
+#ignore pictrues
+*.png
+
 #ignore comiled binaries
 DiceReader
+matrixTest

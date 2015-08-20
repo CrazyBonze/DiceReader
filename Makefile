@@ -17,7 +17,7 @@ matrix.o: matrix.cpp matrix.h
 	g++ -fstack-check -m64 -g -std=c++11 -Wall -W -Werror -pedantic -c matrix.cpp
 
 clean:
-	rm *.o DiceReader
+	rm *.o DiceReader matrixTest
 
 run:
 	./DiceReader dice.png
