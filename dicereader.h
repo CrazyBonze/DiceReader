@@ -1,14 +1,17 @@
-#ifndef DICEREADER_H
-#define DICEREADER_H
+#ifndef DICEREADER_H_
+#define DICEREADER_H_
 
-#include<SFML/Graphics.hpp>
-#include"matrix.h"
-#include<cmath>
-#include<cassert>
-#include<algorithm>
-#include<string>
-#include<iostream>
-using namespace std;
+#include <SFML/Graphics.hpp>
+#include "matrix.h"
+#include <cassert>
+#include <string>
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::cin;
+using std::cerr;
+using std::string;
 
 class DiceReader {
   public:
@@ -42,4 +45,4 @@ class DiceReader {
     void pipFiller(unsigned int, unsigned int);
 };
 
-#endif
+#endif  // DICEREADER_H_

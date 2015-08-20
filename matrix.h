@@ -1,8 +1,7 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef MATRIX_H_
+#define MATRIX_H_
 
-#include<cassert>
-using namespace std;
+#include <cassert>
 
 class Matrix {
   public:
@@ -18,4 +17,5 @@ class Matrix {
     unsigned int *m_Matrix;
     unsigned int getIndex(unsigned int X, unsigned int Y);
 };
-#endif
+
+#endif  // MATRIX_H_
