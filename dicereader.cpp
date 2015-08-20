@@ -22,6 +22,17 @@ DiceReader::DiceReader()
 }
 
 /**
+ * DiceReader::~DiceReader
+ *
+ * Destructor for DiceReader, deletes the pixele state matrix
+ */
+
+DiceReader::~DiceReader()
+{
+  delete m_PixelState;
+}
+
+/**
  * DiceReader::diceCount
  *
  * Parses through an image to find the number represented on a dice
@@ -45,7 +56,7 @@ unsigned int DiceReader::diceCount(string imageName)
 
   //i will have to search for a place to start but for 
   //now this place will do
-  floodFind( 300, 210);
+  floodFind( 1, 1);
 
   return m_DiceTotal;
 }
